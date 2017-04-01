@@ -9,14 +9,18 @@ public class Recv {
 
   public static void main(String[] argv) throws Exception {
     ConnectionFactory factory = new ConnectionFactory();
-//    factory.setHost("192.168.33.14");
-    factory.setHost("192.168.32.125");
+    factory.setHost("192.168.33.14");
+//    factory.setHost("192.168.32.125");
     factory.setUsername("tonyg");
     factory.setPassword("changeit");
     Connection connection = factory.newConnection();
     Channel channel = connection.createChannel();
 
     channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+    
+    channel.queueBind(QUEUE_NAME, "amq.rabbitmq.trace", "deliver.#");
+    channel.queueBind(QUEUE_NAME, "amq.rabbitmq.trace", "publish.#");
+
     System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
     Consumer consumer = new DefaultConsumer(channel) {
