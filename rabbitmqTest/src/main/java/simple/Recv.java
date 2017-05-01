@@ -3,26 +3,21 @@ import com.rabbitmq.client.*;
 
 import java.io.IOException;
 
+import util.Tool;
+
 public class Recv {
 
-  private final static String QUEUE_NAME = "helloTwo";
-
+  private final static String QUEUE_NAME = "hello-tonyg";
+  static Address[] addrArr = new Address[]{new Address("localhost", 5672)};
   public static void main(String[] argv) throws Exception {
-    ConnectionFactory factory = new ConnectionFactory();
-    factory.setHost("192.168.33.14");
-//    factory.setHost("192.168.32.125");
-    factory.setUsername("tonyg");
-    factory.setPassword("changeit");
-    Connection connection = factory.newConnection();
+	Connection connection =  Tool.getConnectionInstance();
     Channel channel = connection.createChannel();
 
     channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+//    channel.queueBind(QUEUE_NAME, "amq.rabbitmq.trace", "deliver.#");
+//    channel.queueBind(QUEUE_NAME, "amq.rabbitmq.trace", "publish.#");
     
-    channel.queueBind(QUEUE_NAME, "amq.rabbitmq.trace", "deliver.#");
-    channel.queueBind(QUEUE_NAME, "amq.rabbitmq.trace", "publish.#");
-
     System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
-
     Consumer consumer = new DefaultConsumer(channel) {
       @Override
       public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body)

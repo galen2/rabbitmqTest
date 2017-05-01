@@ -1,4 +1,10 @@
 package PublishSubscribe;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import util.Tool;
+
+import com.rabbitmq.client.Address;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
@@ -10,22 +16,27 @@ import com.rabbitmq.client.Channel;
  */
 public class EmitLog {
 
-  private static final String EXCHANGE_NAME = "logs";
+  private static final String EXCHANGE_NAME = "cust-logs";
+//  private static final String EXCHANGE_NAME = "amq.fanout2";
+  
+  static Address[] addrArr = new Address[]{new Address("localhost", 5672),new Address("192.168.32.125", 5672)};
 
   public static void main(String[] argv) throws Exception {
-    ConnectionFactory factory = new ConnectionFactory();
-    factory.setHost("192.168.33.14");
-    factory.setUsername("tonyg");
-    factory.setPassword("changeit");
-    Connection connection = factory.newConnection();
+    Connection connection =  Tool.getConnectionInstance();
     Channel channel = connection.createChannel();
 
     channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
 
-    String message = getMessage(argv);
-
-    channel.basicPublish(EXCHANGE_NAME, "", null, message.getBytes("UTF-8"));
-    System.out.println(" [x] Sent '" + message + "'");
+    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	while(true){
+		System.out.print("请输入内容：");
+		String message = reader.readLine();
+		if(message.equals("bye")){
+			break;
+		}
+	    channel.basicPublish(EXCHANGE_NAME, "", null, message.getBytes("UTF-8"));
+	    System.out.println(" [x] Sent '" + message + "'");
+	}
 
     channel.close();
     connection.close();

@@ -28,7 +28,6 @@ public class EmitLogTopic {
       channel = connection.createChannel();
 
       channel.exchangeDeclare(EXCHANGE_NAME, "topic");
-      
 
       String routingKey = getRouting(argv);
       String message = getMessage(argv);

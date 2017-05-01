@@ -15,14 +15,14 @@ public class NewTask {
     Channel channel = connection.createChannel();
 
     channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
-
     String message = getMessage(argv);
 
     channel.basicPublish("", TASK_QUEUE_NAME,
         MessageProperties.PERSISTENT_TEXT_PLAIN,
         message.getBytes("UTF-8"));
     System.out.println(" [x] Sent '" + message + "'");
-
+    channel.confirmSelect();
+    channel.waitForConfirms();
     channel.close();
     connection.close();
   }
