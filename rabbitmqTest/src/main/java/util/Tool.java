@@ -18,8 +18,8 @@ public class Tool {
 		    factory.setUsername("tonyg");
 		    factory.setPassword("changeit");
 		    factory.setVirtualHost("/tonyg");
-			ExecutorService service = Executors.newFixedThreadPool(5);  
-			factory.setSharedExecutor(service);
+		/*	ExecutorService service = Executors.newFixedThreadPool(5);  
+			factory.setSharedExecutor(service);*/
 			Connection connection = factory.newConnection(addrArr);
 			return connection;
 		} catch (Exception e) {
