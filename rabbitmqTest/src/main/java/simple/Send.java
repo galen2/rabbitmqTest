@@ -10,7 +10,7 @@ import com.rabbitmq.client.Connection;
 
 public class Send {
 
-  private final static String QUEUE_NAME = "hello-tonyg";
+  private final static String QUEUE_NAME = "Test-hello-tonyg";
   static Address[] addrArr = new Address[]{new Address("localhost", 5672)};
   public static void main(String[] argv) throws Exception {
 	Connection connection =  Tool.getConnectionInstance();

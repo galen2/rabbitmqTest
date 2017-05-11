@@ -26,6 +26,8 @@ public class EmitLog {
     Channel channel = connection.createChannel();
 
     channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
+    channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
+
 
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	while(true){

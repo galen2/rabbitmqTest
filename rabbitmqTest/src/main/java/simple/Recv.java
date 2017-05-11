@@ -17,12 +17,12 @@ import com.rabbitmq.client.QueueingConsumer.Delivery;
 
 public class Recv {
 
-	private final static String QUEUE_NAME = "hello-tonyg";
+	private final static String QUEUE_NAME = "Test-hello-tonyg";
 	static Address[] addrArr = new Address[] { new Address("localhost", 5672) };
 
 	public static void main(String[] argv) throws Exception {
 //		consutmerQueueConsumerSimulation();
-//		consutmerQueueConsumer();
+		consutmerQueueConsumer();
 	}
 	
 	
@@ -33,7 +33,7 @@ public class Recv {
 		channel.basicQos(1);
 		final QueueingConsumer consumer = new QueueingConsumer(channel); 
 	    channel.basicConsume(QUEUE_NAME, false,consumer);
-	    for (int i =0; i < 2; i ++){
+	    for (int i =0; i < 1; i ++){
 	    	 Thread work = new Thread(new Runnable() {
 	 			public void run() {
 	 				while(true){

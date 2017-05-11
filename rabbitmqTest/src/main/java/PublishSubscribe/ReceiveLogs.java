@@ -18,7 +18,8 @@ public class ReceiveLogs {
 
 //    channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
     String queueName = channel.queueDeclare().getQueue();
-//    channel.queueDeclare(queueName, false, false, false, null);
+    
+    //fanout类型的exchange会忽略routekey参数，因为他是发送消息给所有被绑定的queue
     channel.queueBind(queueName, EXCHANGE_NAME, "");
 
     System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
